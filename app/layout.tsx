@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const metadataBase = new URL("https://musaedi.app");
+const metadataBase = new URL("https://musaedi-website.vercel.app");
 
 export const metadata: Metadata = {
   metadataBase,
@@ -63,11 +63,8 @@ export const metadata: Metadata = {
     canonical: metadataBase,
   },
   verification: {
-    google: process.env.NEXT_PUBLIC_GSC_VERIFICATION || "",
+    google: "AhD_vNcemX0uAQM8n6p8WGf1Sjs7_lWvUWm9iaN9f48",
   },
-  other: process.env.NEXT_PUBLIC_GSC_VERIFICATION
-    ? { "google-site-verification": process.env.NEXT_PUBLIC_GSC_VERIFICATION }
-    : {},
 };
 
 export default function RootLayout({
