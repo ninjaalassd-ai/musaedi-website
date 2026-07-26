@@ -84,7 +84,7 @@ export default function RootLayout({
         </SiteProvider>
 
         <SpeedInsights />
-        <GoogleAnalytics gaId="G-T0R65JTWOY" />
+        <GoogleAnalytics gaId="G-T0R65JTW0Y" />
       </body>
     </html>
   );
