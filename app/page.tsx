@@ -126,7 +126,7 @@ export default function Home() {
       <section className="rounded-[2rem] border border-slate-200 bg-white/70 p-8 shadow-[0_20px_70px_-35px_rgba(15,23,42,0.35)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/70 sm:p-10">
         <SectionHeading
           eyebrow={locale === "ar" ? "ملاحظات المستخدمين" : "User feedback"}
-          title={locale === "ar" ? "الرضا يأتي من الممارسة اليومية" : "Confidence built through daily use"}
+          title={locale === "ar" ? "موثوق به في الممارسة اليومية" : "Trusted in everyday practice"}
           description={locale === "ar" ? "أطباء وصيادلة يقدرون الراحة والوضوح المتأصل في تجربة مساعدي." : "Healthcare professionals value the calm, polished experience Musaedi brings to day-to-day workflows."}
           locale={locale}
         />

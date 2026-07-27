@@ -13,26 +13,27 @@ type SiteContextValue = {
 const SiteContext = createContext<SiteContextValue | undefined>(undefined);
 
 export function SiteProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>("en");
-  const [theme, setThemeState] = useState<Theme>("light");
-
-  useEffect(() => {
+  const [locale, setLocaleState] = useState<Locale>(() => {
     if (typeof window === "undefined") {
-      return;
+      return "en";
     }
 
     const storedLocale = window.localStorage.getItem("musaedi-locale") as Locale | null;
-    if (storedLocale === "en" || storedLocale === "ar") {
-      setLocaleState(storedLocale);
+    return storedLocale === "ar" ? "ar" : "en";
+  });
+
+  const [theme, setThemeState] = useState<Theme>(() => {
+    if (typeof window === "undefined") {
+      return "light";
     }
 
     const storedTheme = window.localStorage.getItem("musaedi-theme") as Theme | null;
-    if (storedTheme === "light" || storedTheme === "dark") {
-      setThemeState(storedTheme);
-    } else {
-      setThemeState(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    if (storedTheme === "dark" || storedTheme === "light") {
+      return storedTheme;
     }
-  }, []);
+
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  });
 
   useEffect(() => {
     if (typeof window === "undefined") {

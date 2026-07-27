@@ -116,6 +116,11 @@ export default function BmiCalculatorPage() {
                 <p className="mt-2 text-4xl font-semibold">{metrics.bmr}</p>
                 <p className="mt-2 text-sm text-blue-50/90">{isArabic ? "سعرات/يوم" : "Calories/day"}</p>
               </div>
+
+              <div className="rounded-2xl border border-white/20 bg-white/10 p-5 backdrop-blur">
+                <p className="text-sm text-blue-50/90">{isArabic ? "نصيحة غذائية سريعة" : "Quick dietary guidance"}</p>
+                <p className="mt-2 text-base leading-7 text-blue-50/90">{metrics.dietAdvice[locale]}</p>
+              </div>
             </div>
           ) : (
             <div className="mt-6 rounded-2xl border border-white/20 bg-white/10 p-6 text-sm text-blue-50/90 backdrop-blur">

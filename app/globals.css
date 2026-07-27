@@ -5,13 +5,20 @@
   --foreground: #071b2f;
   --card: rgba(255, 255, 255, 0.9);
   --muted: #5b6b82;
+  --border: rgba(148, 163, 184, 0.2);
 }
 
 .dark {
-  --background: #030712;
+  --background: #0f172a;
   --foreground: #f8fafc;
-  --card: rgba(15, 23, 42, 0.82);
-  --muted: #94a3b8;
+  --card: rgba(15, 23, 42, 0.95);
+  --muted: #cbd5e1;
+  --border: rgba(148, 163, 184, 0.2);
+}
+
+.dark body {
+  background: var(--background);
+  color: var(--foreground);
 }
 
 @theme inline {

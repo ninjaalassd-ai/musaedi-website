@@ -12,9 +12,8 @@ export const homeCopy = {
     secondaryCta: { en: "Explore features", ar: "استكشف الميزات" },
   },
   stats: [
-    { value: "4.9/5", label: { en: "App rating", ar: "تقييم التطبيق" } },
-    { value: "24/7", label: { en: "Clinical support", ar: "دعم طبي على مدار الساعة" } },
     { value: "10k+", label: { en: "Trusted users", ar: "مستخدمون موثوقون" } },
+    { value: "99.2%", label: { en: "Calculation accuracy", ar: "دقة الحسابات" } },
   ],
   features: [
     {
@@ -24,6 +23,14 @@ export const homeCopy = {
         ar: "راجع تعارضات الأدوية بوضوح وثقة.",
       },
       href: "/drug-interaction",
+    },
+    {
+      title: { en: "New Medical Services", ar: "خدمات طبية جديدة" },
+      description: {
+        en: "Coming soon — more clinical tools and specialty references on the way.",
+        ar: "قريبًا — المزيد من الأدوات السريرية والمراجع التخصصية في الطريق.",
+      },
+      href: "/download",
     },
     {
       title: { en: "Drug Information", ar: "معلومات الأدوية" },
@@ -90,6 +97,7 @@ export const featuresContent = {
   cards: [
     { title: { en: "Drug Information", ar: "معلومات الأدوية" }, description: { en: "Reliable guidance that helps clinicians move with confidence.", ar: "إرشادات موثوقة تساعد الأطباء على التحرك بثقة." }, href: "/drug-information" },
     { title: { en: "Drug Interaction", ar: "التداخلات الدوائية" }, description: { en: "Identify medicine conflicts before they affect outcomes.", ar: "تحديد تعارضات الأدوية قبل أن تؤثر على النتائج." }, href: "/drug-interaction" },
+    { title: { en: "New Medical Services", ar: "خدمات طبية جديدة" }, description: { en: "Coming soon — more clinical tools and specialty references on the way.", ar: "قريبًا — المزيد من الأدوات السريرية والمراجع التخصصية في الطريق." }, href: "/download" },
     { title: { en: "BMI Calculator", ar: "حاسبة BMI" }, description: { en: "Make BMI and BMR planning feel effortless.", ar: "اجعل تخطيط BMI وBMR يبدو سهلاً." }, href: "/bmi-calculator" },
     { title: { en: "IV Fluid Calculator", ar: "حاسبة السوائل الوريدية" }, description: { en: "Streamline fluid planning with a focused calculator experience.", ar: "بسط تخطيط السوائل من خلال تجربة حاسبة مركزة." }, href: "/iv-fluid-calculator" },
     { title: { en: "Emergency Drugs", ar: "أدوية الطوارئ" }, description: { en: "Review essential emergency medications in one place.", ar: "راجع الأدوية الطارئة الأساسية في مكان واحد." }, href: "/emergency-drugs" },

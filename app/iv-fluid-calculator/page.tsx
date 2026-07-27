@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Activity, Droplets, ShieldCheck, Timer } from "lucide-react";
+import { Activity, ArrowRight, Droplets, ShieldCheck, Timer } from "lucide-react";
 import { useSite } from "@/components/site-provider";
 import { PageLayout } from "@/components/ui";
 import { medicalService } from "@/src/lib/medical-service";
@@ -142,6 +142,13 @@ export default function IvFluidCalculatorPage() {
 
             <div className="mt-6 rounded-2xl border border-white/20 bg-white/10 p-4 text-sm text-blue-50/90 backdrop-blur">
               {summary.recommendation[locale]}
+            </div>
+
+            <div className="mt-6 rounded-2xl border border-blue-200 bg-blue-50/20 p-4 text-sm text-slate-900 dark:border-blue-800 dark:bg-blue-900/20 dark:text-blue-100">
+              <div className="flex items-center gap-2 text-sm font-semibold text-blue-800 dark:text-blue-100">
+                <ArrowRight className="h-4 w-4" />
+                {isArabic ? "ملاحظة: التفاصيل تختلف حسب الصيانة، الإنعاش، والتعويض." : "Note: details vary across maintenance, resuscitation, and replacement plans."}
+              </div>
             </div>
           </section>
 

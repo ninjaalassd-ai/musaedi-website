@@ -102,6 +102,9 @@ export default function DrugInformationPage() {
                 {isArabic ? "عرض المعلومات" : "View details"}
               </button>
             </div>
+            <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
+              {isArabic ? "ابحث باسم الدواء العلمي أو التجاري لاكتشاف النتائج بسرعة." : "Search by generic or trade name to find results faster."}
+            </p>
 
             {results.length > 0 ? (
               <div className="mt-4 flex flex-wrap gap-2">

@@ -10,8 +10,9 @@ const filters = [
   { key: "all", label: { en: "All", ar: "الكل" } },
   { key: "Resuscitation", label: { en: "Resuscitation", ar: "الإنعاش" } },
   { key: "Cardiac", label: { en: "Cardiac", ar: "قلب" } },
-  { key: "Emergency", label: { en: "Emergency", ar: "طوارئ" } },
+  { key: "Respiratory", label: { en: "Respiratory", ar: "تنفسي" } },
   { key: "Metabolic", label: { en: "Metabolic", ar: "استقلاب" } },
+  { key: "Emergency", label: { en: "Emergency", ar: "طوارئ" } },
 ];
 
 export default function EmergencyDrugsPage() {

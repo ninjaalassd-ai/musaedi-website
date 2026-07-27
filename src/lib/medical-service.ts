@@ -36,6 +36,7 @@ export type BmiBmrResult = {
   bmi: string;
   bmr: string;
   bmiLabel: { en: string; ar: string };
+  dietAdvice: { en: string; ar: string };
 };
 
 export type IvFluidSummary = {
@@ -138,6 +139,120 @@ function createMockMedicalRepository(): MedicalRepository {
       },
     },
     {
+      id: "paracetamol",
+      name: { en: "Paracetamol", ar: "باراسيتامول" },
+      synonyms: ["Acetaminophen", "Tylenol"],
+      category: { en: "Analgesic", ar: "مسكن" },
+      summary: {
+        en: "A widely used pain reliever and fever reducer for mild to moderate discomfort.",
+        ar: "مسكن وخافض حرارة يستخدم على نطاق واسع للألم الخفيف إلى المتوسط.",
+      },
+      uses: {
+        en: "Relieves headaches, musculoskeletal pain, and fever in both adults and children.",
+        ar: "يخفف الصداع وآلام الجهاز الحركي والحمى لدى البالغين والأطفال.",
+      },
+      dosage: {
+        en: "Use according to age and weight guidelines. Do not exceed the maximum daily dose.",
+        ar: "استخدم وفقًا لإرشادات العمر والوزن. لا تتجاوز الحد الأقصى اليومي.",
+      },
+      sideEffects: {
+        en: "Generally well tolerated but may affect the liver in overdose situations.",
+        ar: "يتحمل بشكل عام جيدًا لكنه قد يؤثر على الكبد في حالات الجرعة الزائدة.",
+      },
+      contraindications: {
+        en: "Avoid in severe hepatic impairment or known hypersensitivity.",
+        ar: "تجنب في حالات ضعف الكبد الشديدة أو فرط الحساسية المعروف.",
+      },
+      pregnancy: {
+        en: "Considered relatively safe when used at recommended doses under supervision.",
+        ar: "يُعتبر آمنًا نسبيًا عند استخدامه بالجرعات الموصى بها وتحت الإشراف.",
+      },
+      interactions: {
+        en: "May interact with alcohol and some liver-metabolized medications.",
+        ar: "قد يتداخل مع الكحول وبعض الأدوية التي يتم استقلابها في الكبد.",
+      },
+      caution: {
+        en: "Review liver function and avoid long-term high-dose use without medical review.",
+        ar: "راجع وظيفة الكبد وتجنب الاستخدام طويل الأمد بجرعات عالية دون مراجعة طبية.",
+      },
+    },
+    {
+      id: "ibuprofen",
+      name: { en: "Ibuprofen", ar: "إيبوبروفين" },
+      synonyms: ["Advil", "Motrin"],
+      category: { en: "NSAID", ar: "مضاد التهاب غير ستيرويدي" },
+      summary: {
+        en: "Commonly used for pain, inflammation, and fever with a fast-acting profile.",
+        ar: "يستخدم عادةً للألم والالتهاب والحمى مع تأثير سريع.",
+      },
+      uses: {
+        en: "Effective for musculoskeletal pain, headaches, and mild inflammatory conditions.",
+        ar: "فعال لألم الجهاز الحركي والصداع والحالات الالتهابية الخفيفة.",
+      },
+      dosage: {
+        en: "Take with food and use the lowest effective dose for the shortest duration.",
+        ar: "تناول مع الطعام واستخدم أدنى جرعة فعالة لأقصر مدة.",
+      },
+      sideEffects: {
+        en: "May cause gastrointestinal irritation, renal stress, and increased bleeding risk.",
+        ar: "قد يسبب تهيجًا في الجهاز الهضمي وإجهادًا كلوياً وزيادة خطر النزف.",
+      },
+      contraindications: {
+        en: "Avoid in active ulcers, severe renal impairment, or uncontrolled hypertension.",
+        ar: "تجنب في القرحة النشطة أو ضعف الكلى الشديد أو ارتفاع ضغط الدم غير المنضبط.",
+      },
+      pregnancy: {
+        en: "Use caution in pregnancy and follow obstetric guidance for timing and indication.",
+        ar: "استخدم بحذر في الحمل واتبع إرشادات التوليد للوقت والدلالة.",
+      },
+      interactions: {
+        en: "May interact with anticoagulants, ACE inhibitors, and other NSAIDs.",
+        ar: "قد يتداخل مع مضادات التخثر ومثبطات الإنزيم المحول للأنجيوتنسين وأدوية NSAID الأخرى.",
+      },
+      caution: {
+        en: "Monitor renal function and stop if abdominal pain or dark stools occur.",
+        ar: "راقب وظائف الكلى وتوقف إذا حدث ألم بطني أو براز داكن.",
+      },
+    },
+    {
+      id: "omeprazole",
+      name: { en: "Omeprazole", ar: "أومبرازول" },
+      synonyms: ["Prilosec"],
+      category: { en: "Proton pump inhibitor", ar: "مثبط مضخة البروتون" },
+      summary: {
+        en: "A medication used to reduce gastric acid production in reflux and ulcer disease.",
+        ar: "دواء يقلل من إنتاج حمض المعدة في حالات الارتجاع وقرحة المعدة.",
+      },
+      uses: {
+        en: "Used for GERD, peptic ulcer disease, and acid-related dyspepsia.",
+        ar: "يُستخدم لمرض الارتجاع والمعدة التقرحية وعسر الهضم الناجم عن الحمض.",
+      },
+      dosage: {
+        en: "Typically taken once daily before breakfast for standard indications.",
+        ar: "عادةً يؤخذ مرة واحدة يوميًا قبل الإفطار للحالات القياسية.",
+      },
+      sideEffects: {
+        en: "May cause headache, nausea, and long-term changes in magnesium or B12.",
+        ar: "قد يسبب صداعًا وغثيانًا وتغيرات طويلة الأمد في المغنيسيوم أو فيتامين ب12.",
+      },
+      contraindications: {
+        en: "Avoid if there is hypersensitivity to proton pump inhibitors.",
+        ar: "تجنب إذا كان هناك فرط حساسية لمثبطات مضخة البروتون.",
+      },
+      pregnancy: {
+        en: "Generally considered safe when clinically indicated, but review obstetric guidance.",
+        ar: "يعتبر آمنًا عمومًا عند وجود دلالة سريرية، لكن راجع إرشادات التوليد.",
+      },
+      interactions: {
+        en: "May interact with clopidogrel and other medications requiring acidic absorption.",
+        ar: "قد يتداخل مع كلوبيدوجريل وأدوية أخرى تتطلب امتصاصًا حمضيًا.",
+      },
+      caution: {
+        en: "Use the lowest effective dose and reassess need periodically.",
+        ar: "استخدم أدنى جرعة فعالة وأعد تقييم الحاجة بشكل دوري.",
+      },
+    },
+    {
       id: "warfarin",
       name: { en: "Warfarin", ar: "وارفارين" },
       synonyms: ["Coumadin"],
@@ -237,6 +352,34 @@ function createMockMedicalRepository(): MedicalRepository {
       summary: { en: "Rapid support for severe hypoglycemia in acute care settings.", ar: "دعم سريع لنقص السكر الشديد في بيئات الرعاية الحادة." },
       note: { en: "Administer quickly when hypoglycemia is suspected and confirmed.", ar: "أعطه بسرعة عند الاشتباه في نقص السكر وتأكيده." },
     },
+    {
+      id: "naloxone",
+      name: { en: "Naloxone", ar: "نالوكسون" },
+      category: { en: "Emergency", ar: "طوارئ" },
+      summary: { en: "A critical opioid antagonist for reversing respiratory depression in overdose.", ar: "مضاد أفيوني حاسم لعكس تثبيط الجهاز التنفسي في حالة الجرعة الزائدة." },
+      note: { en: "Keep available in any setting where opioid overdose is possible.", ar: "احتفظ به متاحًا في أي مكان يمكن أن يحدث فيه فرط جرعة من الأفيونات." },
+    },
+    {
+      id: "nitroglycerin",
+      name: { en: "Nitroglycerin", ar: "نيتروجليسرين" },
+      category: { en: "Cardiac", ar: "قلب" },
+      summary: { en: "Used in acute coronary syndromes and chest pain management under monitoring.", ar: "يُستخدم في متلازمات الشريان التاجي الحادة وإدارة ألم الصدر تحت المراقبة." },
+      note: { en: "Avoid in hypotension or right ventricular infarction without specialist advice.", ar: "تجنب في حالات انخفاض ضغط الدم أو احتشاء البطين الأيمن دون مشورة أخصائي." },
+    },
+    {
+      id: "furosemide",
+      name: { en: "Furosemide", ar: "فوروزمايد" },
+      category: { en: "Metabolic", ar: "استقلاب" },
+      summary: { en: "A loop diuretic commonly used for acute pulmonary edema and volume overload.", ar: "مدر حلقي يستخدم عادة لوذمة الرئة الحادة والاحتباس السائلي." },
+      note: { en: "Monitor blood pressure and electrolytes when administered in emergency settings.", ar: "راقب ضغط الدم والشوارد عند إعطائه في ظروف الطوارئ." },
+    },
+    {
+      id: "salbutamol",
+      name: { en: "Salbutamol", ar: "سالبوتامول" },
+      category: { en: "Respiratory", ar: "تنفسي" },
+      summary: { en: "A bronchodilator used for acute bronchospasm in asthma and COPD exacerbations.", ar: "موسّع قصبات يستخدم لتشنج القصبات الحاد في تفاقم الربو ومرض الانسداد الرئوي المزمن." },
+      note: { en: "Deliver by nebulizer or inhaler, and reassess respiratory status often.", ar: "قدمه عن طريق جهاز الاستنشاق أو البخاخ وأعد تقييم الحالة التنفسية بشكل متكرر." },
+    },
   ];
 
   return {
@@ -284,7 +427,34 @@ function createMockMedicalRepository(): MedicalRepository {
       else if (bmi < 25) bmiLabel = { en: "Normal", ar: "طبيعي" };
       else if (bmi < 30) bmiLabel = { en: "Overweight", ar: "زيادة وزن" };
       else bmiLabel = { en: "Obese", ar: "سمنة" };
-      return { bmi: bmi.toFixed(1), bmr: bmr.toFixed(0), bmiLabel };
+      let dietAdvice = {
+        en: "Maintain a balanced plate with whole grains, lean protein, and plenty of vegetables.",
+        ar: "حافظ على طبق متوازن يحتوي على الحبوب الكاملة والبروتين الخفيف والكثير من الخضار.",
+      };
+
+      if (bmi < 18.5) {
+        dietAdvice = {
+          en: "Add nutrient-dense protein and healthy fats to support gradual weight gain.",
+          ar: "أضف البروتين الغني والمغذيات والدهون الصحية لدعم زيادة الوزن التدريجية.",
+        };
+      } else if (bmi < 25) {
+        dietAdvice = {
+          en: "Keep portions steady, focus on colorful vegetables, and stay hydrated.",
+          ar: "حافظ على كميات معتدلة، ركز على الخضار الملونة، وابقَ رطبًا.",
+        };
+      } else if (bmi < 30) {
+        dietAdvice = {
+          en: "Choose lean proteins, reduce refined carbs, and increase fiber-rich foods.",
+          ar: "اختر البروتينات الخفيفة، قلل الكربوهيدرات المكررة، وزد الأطعمة الغنية بالألياف.",
+        };
+      } else {
+        dietAdvice = {
+          en: "Aim for lower-calorie, nutrient-rich meals and monitor portion sizes closely.",
+          ar: "استهدف وجبات منخفضة السعرات وغنية بالمغذيات وراقب حجم الحصص عن كثب.",
+        };
+      }
+
+      return { bmi: bmi.toFixed(1), bmr: bmr.toFixed(0), bmiLabel, dietAdvice };
     },
     calculateIvFluidPlan(mode, weightKg, rate, duration, fluidType) {
       const modeMultiplier = mode === "maintenance" ? 1 : mode === "resuscitation" ? 1.3 : 1.1;
