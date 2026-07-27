@@ -12,7 +12,6 @@ export const homeCopy = {
     secondaryCta: { en: "Explore features", ar: "استكشف الميزات" },
   },
   stats: [
-    { value: "10k+", label: { en: "Trusted users", ar: "مستخدمون موثوقون" } },
     { value: "99.2%", label: { en: "Calculation accuracy", ar: "دقة الحسابات" } },
   ],
   features: [

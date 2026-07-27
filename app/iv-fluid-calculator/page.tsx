@@ -112,6 +112,29 @@ export default function IvFluidCalculatorPage() {
         </section>
 
         <div className="space-y-6">
+          <section className="rounded-[2rem] border border-slate-200 bg-slate-50/90 p-6 shadow-lg dark:border-slate-800 dark:bg-slate-950/80">
+            <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
+              {isArabic ? "ما المقصود بخطط الصيانة، الإنعاش، والتعويض؟" : "What maintenance, resuscitation, and replacement plans mean"}
+            </h2>
+            <div className="mt-4 space-y-4 text-sm leading-7 text-slate-700 dark:text-slate-300">
+              <p>
+                {isArabic
+                  ? "الخطة الصيانة تُستخدم للحفاظ على السوائل والمحاليل لدى المريض المستقر، بهدف تلبية احتياجاته اليومية دون نقص أو زيادة." 
+                  : "The maintenance plan is used to keep a stable patient hydrated with the daily fluid needs needed without deficit or overload."}
+              </p>
+              <p>
+                {isArabic
+                  ? "خطة الإنعاش تُستخدم عندما يحتاج المريض إلى تعزيز فوري لتدفق الدم والأكسجين، مثل حالات الصدمة أو انخفاض ضغط الدم الحاد." 
+                  : "The resuscitation plan is used when the patient needs an urgent boost to blood flow and oxygen delivery, such as shock or severe hypotension."}
+              </p>
+              <p>
+                {isArabic
+                  ? "خطة التعويض تُستخدم لتعويض الخسائر السائلة المستمرة أو المتوقعة بسبب النزيف، الإسهال، القيء، أو الجراحات." 
+                  : "The replacement plan is used to replace ongoing or expected fluid losses from bleeding, diarrhea, vomiting, or surgical drains."}
+              </p>
+            </div>
+          </section>
+
           <section className="rounded-[2rem] bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-500 p-8 text-white shadow-2xl">
             <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.25em] text-blue-100">
               <Activity className="h-4 w-4" />
