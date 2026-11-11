@@ -13,6 +13,15 @@ export type DrugRecord = {
   pregnancy: { en: string; ar: string };
   interactions: { en: string; ar: string };
   caution: { en: string; ar: string };
+  scientificName?: { en: string; ar: string };
+  tradeName?: { en: string; ar: string };
+  indications?: { en: string; ar: string };
+  dosageRouteAge?: { en: string; ar: string };
+  contraindicationsWarnings?: { en: string; ar: string };
+  importantSideEffects?: { en: string; ar: string };
+  relevantInteractions?: { en: string; ar: string };
+  source?: { en: string; ar: string };
+  lastReviewed?: { en: string; ar: string };
 };
 
 export type InteractionRecord = {
@@ -30,6 +39,15 @@ export type EmergencyDrugRecord = {
   category: { en: string; ar: string };
   summary: { en: string; ar: string };
   note: { en: string; ar: string };
+  scientificName?: { en: string; ar: string };
+  tradeName?: { en: string; ar: string };
+  indications?: { en: string; ar: string };
+  dosageRouteAge?: { en: string; ar: string };
+  contraindicationsWarnings?: { en: string; ar: string };
+  importantSideEffects?: { en: string; ar: string };
+  relevantInteractions?: { en: string; ar: string };
+  source?: { en: string; ar: string };
+  lastReviewed?: { en: string; ar: string };
 };
 
 export type BmiBmrResult = {

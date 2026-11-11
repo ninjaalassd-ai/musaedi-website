@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, Activity, HeartPulse, Scale } from "lucide-react";
 import { useSite } from "@/components/site-provider";
 import { PageLayout } from "@/components/ui";
+import { MedicalReferenceFooter } from "@/components/medical-reference-footer";
 import { medicalService } from "@/src/lib/medical-service";
 
 export default function BmiCalculatorPage() {
@@ -136,6 +137,84 @@ export default function BmiCalculatorPage() {
           </Link>
         </section>
       </div>
+
+      <section className="mt-8 rounded-[2rem] border border-slate-200 bg-white/80 p-8 shadow-lg dark:border-slate-800 dark:bg-slate-900/80">
+        <h3 className="text-2xl font-semibold text-slate-900 dark:text-white">
+          {isArabic ? "طريقة الحساب" : "Calculation method"}
+        </h3>
+
+        <div className="mt-5 grid gap-5 lg:grid-cols-2">
+          <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-5 dark:border-slate-800 dark:bg-slate-950/70">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-300">
+              {isArabic ? "المعادلة" : "Equation"}
+            </p>
+            <p className="mt-3 text-lg font-medium text-slate-900 dark:text-white">
+              BMI = weightKg / (heightCm / 100)^2
+            </p>
+            <p className="mt-3 text-lg font-medium text-slate-900 dark:text-white">
+              BMR = 10 × weightKg + 6.25 × heightCm - 5 × age + 5 {isArabic ? "(للذكور)" : "(male)"}
+            </p>
+            <p className="mt-2 text-lg font-medium text-slate-900 dark:text-white">
+              BMR = 10 × weightKg + 6.25 × heightCm - 5 × age - 161 {isArabic ? "(للإناث)" : "(female)"}
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-5 dark:border-slate-800 dark:bg-slate-950/70">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-300">
+              {isArabic ? "المتغيرات" : "Variables"}
+            </p>
+            <ul className="mt-3 space-y-2 text-sm text-slate-700 dark:text-slate-300">
+              <li><span className="font-semibold">BMI:</span> {isArabic ? "مؤشر كتلة الجسم" : "Body Mass Index"}</li>
+              <li><span className="font-semibold">weightKg:</span> {isArabic ? "الوزن بالكيلوغرام" : "Weight in kilograms (kg)"}</li>
+              <li><span className="font-semibold">heightCm:</span> {isArabic ? "الطول بالسنتيمتر" : "Height in centimeters (cm)"}</li>
+              <li><span className="font-semibold">age:</span> {isArabic ? "العمر بالسنوات" : "Age in years"}</li>
+              <li><span className="font-semibold">BMR:</span> {isArabic ? "المعدل الأساسي للأيض، والوحدة: سعرات/يوم" : "Basal metabolic rate in calories/day"}</li>
+              <li><span className="font-semibold">sex:</span> {isArabic ? "الجنس: ذكر أو أنثى، كما تم تعريفه في التطبيق الحالي" : "Sex: male or female, as defined in the current app logic"}</li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-5 rounded-2xl border border-amber-200 bg-amber-50/80 p-5 dark:border-amber-900/50 dark:bg-amber-950/30">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-700 dark:text-amber-300">
+            {isArabic ? "الفئة" : "Applicability"}
+          </p>
+          <p className="mt-2 text-sm text-slate-700 dark:text-slate-200">
+            {isArabic
+              ? "لا يوجد في المشروع توثيق محدد يحدد فئة عمرية أو فئة سكانية معينة لهذه الصيغة. تم تطبيق المعادلات الحالية كما هي في الرمز البرمجي دون إضافة نطاق استخدام غير موثق."
+              : "The project does not provide a documented age group or population scope for this formula. The current equations are applied exactly as implemented in code, without adding an undocumented usage scope."}
+          </p>
+        </div>
+
+        <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50/80 p-5 dark:border-slate-800 dark:bg-slate-950/70">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-300">
+            {isArabic ? "مثال بسيط" : "Simple example"}
+          </p>
+          <p className="mt-3 text-sm text-slate-700 dark:text-slate-300">
+            {isArabic
+              ? "إذا كان الوزن 70 كجم، والطول 170 سم، والعمر 30 سنة، والجنس ذكر: BMI = 70 / (1.70)^2 ≈ 24.2، وBMR = 10×70 + 6.25×170 - 5×30 + 5 = 1,580 سعر/يوم تقريبًا."
+              : "If weight is 70 kg, height is 170 cm, age is 30, and sex is male: BMI = 70 / (1.70)^2 ≈ 24.2, and BMR = 10×70 + 6.25×170 - 5×30 + 5 = 1,580 calories/day approximately."}
+          </p>
+        </div>
+
+        <p className="mt-5 rounded-2xl border border-red-200 bg-red-50/80 p-4 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-200">
+          {isArabic
+            ? "تنبيه: دقة الناتج تعتمد على صحة البيانات المدخلة، وعلى أن المعادلة المستخدمة تتوافق مع السياق الذي تُستعمل فيه."
+            : "Warning: the result depends on the accuracy of the entered data and on the context in which the selected formula is used."}
+        </p>
+      </section>
+
+      <MedicalReferenceFooter
+        locale={locale}
+        lastReviewed="2026-11-05"
+        scope={{
+          en: "Educational BMI and BMR estimation support for general clinical context. This calculator is not a diagnosis and should be interpreted with local clinical judgment and patient-specific assessment.",
+          ar: "دعم تعليمي لتقدير BMI وBMR في السياق السريري العام. هذه الحاسبة ليست تشخيصًا ويجب تفسيرها مع الحكم السريري المحلي والتقييم الخاص بالمريض.",
+        }}
+        sources={[
+          { label: "WHO: Obesity and overweight", href: "https://www.who.int/news-room/fact-sheets/detail/obesity" },
+          { label: "WHO: Body mass index - BMI", href: "https://www.who.int/data/gho/data/themes/topics/topic-details/GHO/body-mass-index-bmi" },
+        ]}
+      />
     </PageLayout>
   );
 }

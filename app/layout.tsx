@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const metadataBase = new URL("https://musaedi-website.vercel.app");
+const metadataBase = new URL("https://musaedi.app");
 
 export const metadata: Metadata = {
   metadataBase,

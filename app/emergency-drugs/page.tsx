@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Search, ShieldCheck, Stethoscope } from "lucide-react";
 import { useSite } from "@/components/site-provider";
 import { PageLayout } from "@/components/ui";
+import { MedicalReferenceFooter } from "@/components/medical-reference-footer";
 import { medicalService } from "@/src/lib/medical-service";
 
 const filters = [
@@ -14,6 +15,18 @@ const filters = [
   { key: "Metabolic", label: { en: "Metabolic", ar: "استقلاب" } },
   { key: "Emergency", label: { en: "Emergency", ar: "طوارئ" } },
 ];
+
+const emergencyDetailFields = [
+  { key: "scientificName", label: { en: "Scientific name", ar: "الاسم العلمي" } },
+  { key: "tradeName", label: { en: "Brand name", ar: "الاسم التجاري" } },
+  { key: "indications", label: { en: "Indications", ar: "الاستطبابات" } },
+  { key: "dosageRouteAge", label: { en: "Dosage, route, and age group", ar: "الجرعة وطريق الإعطاء والفئة العمرية" } },
+  { key: "contraindicationsWarnings", label: { en: "Contraindications and warnings", ar: "موانع الاستعمال والتحذيرات" } },
+  { key: "importantSideEffects", label: { en: "Important side effects", ar: "الآثار الجانبية المهمة" } },
+  { key: "relevantInteractions", label: { en: "Relevant interactions", ar: "التداخلات ذات الصلة" } },
+  { key: "source", label: { en: "Source", ar: "المصدر" } },
+  { key: "lastReviewed", label: { en: "Last reviewed", ar: "آخر مراجعة" } },
+] as const;
 
 export default function EmergencyDrugsPage() {
   const { locale } = useSite();
@@ -46,6 +59,19 @@ export default function EmergencyDrugsPage() {
               <ShieldCheck className="h-4 w-4" />
               {isArabic ? "مرجع سريع" : "Fast reference"}
             </div>
+          </div>
+
+          <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50/80 p-4 text-sm leading-7 text-amber-800 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-200">
+            <p>
+              {isArabic
+                ? "مصدر بيانات أدوية الطوارئ وتاريخ تحديثها ونطاق تغطيتها غير موثق في هذا المشروع. لا نؤكد أن القائمة تشمل كل الأدوية أو المكملات أو الأعشاب أو كل سيناريو طارئ."
+                : "Emergency-drug data source, update date, and coverage are not documented in this project. We do not claim the list covers every drug, supplement, herb, or emergency scenario."}
+            </p>
+            <p className="mt-2">
+              {isArabic
+                ? "أي توسيع لقائمة أدوية الطوارئ يتطلب مراجعة مختص صحي مؤهل."
+                : "Any expansion of the emergency drug list requires review by a qualified healthcare professional."}
+            </p>
           </div>
 
           <div className="mt-6 flex flex-col gap-4 lg:flex-row">
@@ -87,10 +113,38 @@ export default function EmergencyDrugsPage() {
               </div>
               <p className="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300">{drug.note[locale]}</p>
               <p className="mt-3 text-sm font-medium text-slate-500 dark:text-slate-400">{drug.summary[locale]}</p>
+
+              <div className="mt-5 space-y-3 border-t border-slate-200 pt-4 dark:border-slate-800">
+                {emergencyDetailFields.map((field) => {
+                  const value = drug[field.key]?.[locale]?.trim();
+                  return (
+                    <div key={field.key} className="text-sm">
+                      <p className="font-semibold text-slate-700 dark:text-slate-200">{field.label[locale]}</p>
+                      <p className="mt-1 text-slate-600 dark:text-slate-300">
+                        {value || (isArabic ? "قيد المراجعة — لا توجد بيانات موثقة في هذا الوقت." : "Pending review — no verified data available at this time.")}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
             </article>
           ))}
         </section>
       </div>
+
+      <MedicalReferenceFooter
+        locale={locale}
+        lastReviewed="2026-11-05"
+        scope={{
+          en: "Emergency-drug support for educational awareness and rapid reference. It does not replace local emergency algorithms, resuscitation protocols, institutional policy, or the judgment of the responding clinical team.",
+          ar: "دعم تعليمي لأدوية الطوارئ والمرجع السريع. لا يحل محل خوارزميات الطوارئ المحلية أو بروتوكولات الإنعاش أو سياسة المؤسسة أو حكم الفريق الطبي الاستجابة.",
+        }}
+        sources={[
+          { label: "Resuscitation Council UK", href: "https://www.resus.org.uk/" },
+          { label: "NICE: Sepsis guidance", href: "https://www.nice.org.uk/guidance/ng51" },
+          { label: "NICE: Clinical emergencies", href: "https://www.nice.org.uk/guidance" },
+        ]}
+      />
     </PageLayout>
   );
 }

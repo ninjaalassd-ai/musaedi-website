@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AlertTriangle, ArrowRight, Search, ShieldCheck, Stethoscope } from "lucide-react";
 import { useSite } from "@/components/site-provider";
 import { PageLayout } from "@/components/ui";
+import { MedicalReferenceFooter } from "@/components/medical-reference-footer";
 import { medicalService } from "@/src/lib/medical-service";
 
 const severityCards = [
@@ -40,6 +41,26 @@ export default function DrugInteractionPage() {
   const [drugB, setDrugB] = useState("ibuprofen");
   const [reviewedPair, setReviewedPair] = useState({ drugA: "warfarin", drugB: "ibuprofen" });
 
+  const drugASuggestions = useMemo(() => {
+    const query = drugA.trim();
+    if (!query) return [];
+    return medicalService.searchDrugs(drugA, locale).slice(0, 5).map((drug) => ({
+      id: drug.id,
+      label: drug.name[locale],
+      secondary: drug.synonyms.length ? drug.synonyms[0] : "",
+    }));
+  }, [drugA, locale]);
+
+  const drugBSuggestions = useMemo(() => {
+    const query = drugB.trim();
+    if (!query) return [];
+    return medicalService.searchDrugs(drugB, locale).slice(0, 5).map((drug) => ({
+      id: drug.id,
+      label: drug.name[locale],
+      secondary: drug.synonyms.length ? drug.synonyms[0] : "",
+    }));
+  }, [drugB, locale]);
+
   const result = useMemo(() => medicalService.getInteractionReport(reviewedPair.drugA, reviewedPair.drugB, locale), [locale, reviewedPair.drugA, reviewedPair.drugB]);
 
   return (
@@ -52,6 +73,25 @@ export default function DrugInteractionPage() {
       secondaryAction={{ href: "/medical-calculators", label: isArabic ? "الآلات الحاسبة" : "View calculators" }}
     >
       <div className="space-y-6">
+        <section className="rounded-[2rem] border border-amber-200 bg-amber-50/90 p-6 shadow-lg dark:border-amber-900/50 dark:bg-amber-950/50">
+          <div className="flex items-start gap-3">
+            <AlertTriangle className="mt-1 h-5 w-5 text-amber-700 dark:text-amber-300" />
+            <div>
+              <h2 className="text-xl font-semibold text-slate-900 dark:text-white">{isArabic ? "مصدر البيانات ونطاق التغطية / Data source and coverage" : "Data source and coverage / مصدر البيانات ونطاق التغطية"}</h2>
+              <p className="mt-2 text-sm leading-7 text-slate-700 dark:text-slate-300">
+                {isArabic
+                  ? "بيانات هذا الفاحص ليست مرتبطة بمزود بيانات رسمي موثق في المشروع، ولا يوجد اسم مزود محدد، ولا تاريخ تحديث مثبت، ولا قائمة تغطية شاملة للأدوية أو المكملات أو الأعشاب أو الحالات الصحية. لذلك لا يُعد الفاحص شاملاً، ولا يُفترض أنه يغطي جميع التداخلات الممكنة."
+                  : "The data used by this checker is not linked to a formally documented provider in the project, and there is no verified provider name, update date, or exhaustive coverage list for medications, supplements, herbal products, or health conditions. The checker is therefore not comprehensive and must not be treated as covering all possible interactions."}
+              </p>
+              <p className="mt-2 text-sm leading-7 text-slate-700 dark:text-slate-300">
+                {isArabic
+                  ? "أي توسيع لقاعدة بيانات التداخلات يتطلب مراجعة مختص صحي مؤهل."
+                  : "Any expansion of the interaction database requires review by a qualified healthcare professional."}
+              </p>
+            </div>
+          </div>
+        </section>
+
         <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="rounded-[2rem] border border-slate-200 bg-white/80 p-8 shadow-lg dark:border-slate-800 dark:bg-slate-900/80">
             <div className="flex flex-wrap items-center gap-2 text-sm font-semibold uppercase tracking-[0.25em] text-blue-600 dark:text-blue-300">
@@ -62,26 +102,74 @@ export default function DrugInteractionPage() {
               <label className="text-sm font-medium text-slate-700 dark:text-slate-200" htmlFor="drug-a">
                 {isArabic ? "دواء 1" : "Medication 1"}
               </label>
-              <input
-                id="drug-a"
-                type="text"
-                value={drugA}
-                onChange={(e) => setDrugA(e.target.value)}
-                placeholder={isArabic ? "مثال: وارفارين" : "Example: Warfarin"}
-                className="mt-2 flex-1 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 outline-none ring-0 placeholder:text-slate-400 focus:border-blue-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
-              />
+              <div className="space-y-2">
+                <input
+                  id="drug-a"
+                  type="text"
+                  value={drugA}
+                  onChange={(e) => setDrugA(e.target.value)}
+                  placeholder={isArabic ? "مثال: وارفارين" : "Example: Warfarin"}
+                  className="mt-2 flex-1 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 outline-none ring-0 placeholder:text-slate-400 focus:border-blue-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+                />
+                {drugASuggestions.length > 0 ? (
+                  <div className="space-y-2 rounded-2xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-950">
+                    <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400">
+                      {isArabic ? "اقتراحات الدواء 1" : "Medication 1 suggestions"}
+                    </p>
+                    <div className="grid gap-2">
+                      {drugASuggestions.map((suggestion) => (
+                        <button
+                          key={suggestion.id}
+                          type="button"
+                          onClick={() => {
+                            setDrugA(suggestion.label);
+                          }}
+                          className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-3 py-2 text-left text-sm text-slate-700 transition hover:border-blue-500 hover:bg-blue-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-blue-400 dark:hover:bg-slate-900"
+                        >
+                          <span>{suggestion.label}</span>
+                          {suggestion.secondary ? <span className="text-xs text-slate-500 dark:text-slate-400">{suggestion.secondary}</span> : null}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+              </div>
 
               <label className="mt-4 block text-sm font-medium text-slate-700 dark:text-slate-200" htmlFor="drug-b">
                 {isArabic ? "دواء 2" : "Medication 2"}
               </label>
-              <input
-                id="drug-b"
-                type="text"
-                value={drugB}
-                onChange={(e) => setDrugB(e.target.value)}
-                placeholder={isArabic ? "مثال: إيبوبروفين" : "Example: Ibuprofen"}
-                className="mt-2 flex-1 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 outline-none ring-0 placeholder:text-slate-400 focus:border-blue-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
-              />
+              <div className="space-y-2">
+                <input
+                  id="drug-b"
+                  type="text"
+                  value={drugB}
+                  onChange={(e) => setDrugB(e.target.value)}
+                  placeholder={isArabic ? "مثال: إيبوبروفين" : "Example: Ibuprofen"}
+                  className="mt-2 flex-1 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 outline-none ring-0 placeholder:text-slate-400 focus:border-blue-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+                />
+                {drugBSuggestions.length > 0 ? (
+                  <div className="space-y-2 rounded-2xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-950">
+                    <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400">
+                      {isArabic ? "اقتراحات الدواء 2" : "Medication 2 suggestions"}
+                    </p>
+                    <div className="grid gap-2">
+                      {drugBSuggestions.map((suggestion) => (
+                        <button
+                          key={suggestion.id}
+                          type="button"
+                          onClick={() => {
+                            setDrugB(suggestion.label);
+                          }}
+                          className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-3 py-2 text-left text-sm text-slate-700 transition hover:border-blue-500 hover:bg-blue-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-blue-400 dark:hover:bg-slate-900"
+                        >
+                          <span>{suggestion.label}</span>
+                          {suggestion.secondary ? <span className="text-xs text-slate-500 dark:text-slate-400">{suggestion.secondary}</span> : null}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+              </div>
 
               <button
                 type="button"
@@ -168,6 +256,20 @@ export default function DrugInteractionPage() {
           </div>
         </section>
       </div>
+
+      <MedicalReferenceFooter
+        locale={locale}
+        lastReviewed="2026-11-05"
+        scope={{
+          en: "Educational medication-interaction support for general clinical awareness only. This tool is not exhaustive and does not replace clinician judgment, pharmacist review, local formulary policy, or institution-approved prescribing guidance.",
+          ar: "دعم تعليمي للتعرف على تداخلات الأدوية في السياق السريري العام فقط. هذه الأداة ليست شاملة ولا تستبدل حكم الطبيب أو مراجعة الصيدلي أو سياسة الصيادلة المحلية أو إرشادات الوصفة المعتمدة في المؤسسة.",
+        }}
+        sources={[
+          { label: "NHS: Medicines information", href: "https://www.nhs.uk/conditions/medicines-information/" },
+          { label: "BNF: British National Formulary", href: "https://www.bnf.org/" },
+          { label: "EMA: Medicines", href: "https://www.ema.europa.eu/en" },
+        ]}
+      />
     </PageLayout>
   );
 }

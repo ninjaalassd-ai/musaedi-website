@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSite } from "@/components/site-provider";
 import { PageLayout } from "@/components/ui";
+import { MedicalReferenceFooter } from "@/components/medical-reference-footer";
 import { calculatorsContent, getLocalizedText } from "@/lib/content";
 
 export default function MedicalCalculatorsPage() {
@@ -24,6 +25,19 @@ export default function MedicalCalculatorsPage() {
           </Link>
         ))}
       </div>
+
+      <MedicalReferenceFooter
+        locale={locale}
+        lastReviewed="2026-11-05"
+        scope={{
+          en: "Educational calculator directory for general clinical awareness. Tools provide supporting estimates only and do not replace clinician judgment, patient assessment, or institutional policy.",
+          ar: "دليل حاسبات تعليمية للوعي السريري العام. الأدوات توفر تقديرات داعمة فقط ولا تستبدل حكم الطبيب أو تقييم المريض أو سياسة المؤسسة.",
+        }}
+        sources={[
+          { label: "WHO: Obesity and overweight", href: "https://www.who.int/news-room/fact-sheets/detail/obesity" },
+          { label: "NICE: Intravenous fluid therapy in adults in hospital", href: "https://www.nice.org.uk/guidance/cg174" },
+        ]}
+      />
     </PageLayout>
   );
 }

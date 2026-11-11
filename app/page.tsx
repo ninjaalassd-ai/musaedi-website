@@ -120,6 +120,12 @@ export default function Home() {
               </div>
             ))}
           </div>
+          <p className="mt-4 rounded-xl border border-white/20 bg-white/5 p-3 text-xs leading-6 text-blue-50/90">
+            <span className="font-semibold">{locale === "ar" ? "ملاحظة داخلية:" : "Internal note:"}</span>{" "}
+            {locale === "ar"
+              ? "لا يوجد في المشروع تعريف موثق لهذه النسبة ولا طريقة تحقق موثقة لها. يجب توضيح ما تقيسه وكيف جرى التحقق منها قبل نشر أي ادعاء تفصيلي عنها."
+              : "The project does not currently include a documented definition for this metric or a documented verification method. The exact calculation and validation approach must be confirmed before any detailed claim is published."}
+          </p>
         </div>
       </section>
 
