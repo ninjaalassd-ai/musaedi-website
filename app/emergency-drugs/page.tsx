@@ -25,6 +25,7 @@ const emergencyDetailFields = [
   { key: "importantSideEffects", label: { en: "Important side effects", ar: "الآثار الجانبية المهمة" } },
   { key: "relevantInteractions", label: { en: "Relevant interactions", ar: "التداخلات ذات الصلة" } },
   { key: "source", label: { en: "Source", ar: "المصدر" } },
+  { key: "sourceUrl", label: { en: "Reference link", ar: "رابط المرجع" } },
   { key: "lastReviewed", label: { en: "Last reviewed", ar: "آخر مراجعة" } },
 ] as const;
 
@@ -117,6 +118,22 @@ export default function EmergencyDrugsPage() {
               <div className="mt-5 space-y-3 border-t border-slate-200 pt-4 dark:border-slate-800">
                 {emergencyDetailFields.map((field) => {
                   const value = drug[field.key]?.[locale]?.trim();
+                  if (field.key === "sourceUrl" && value) {
+                    return (
+                      <div key={field.key} className="text-sm">
+                        <p className="font-semibold text-slate-700 dark:text-slate-200">{field.label[locale]}</p>
+                        <a
+                          href={value}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="mt-1 inline-block break-all text-blue-600 underline decoration-blue-400 underline-offset-4 dark:text-blue-300"
+                        >
+                          {value}
+                        </a>
+                      </div>
+                    );
+                  }
+
                   return (
                     <div key={field.key} className="text-sm">
                       <p className="font-semibold text-slate-700 dark:text-slate-200">{field.label[locale]}</p>

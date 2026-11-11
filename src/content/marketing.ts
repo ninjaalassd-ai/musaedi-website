@@ -12,7 +12,9 @@ export const homeCopy = {
     secondaryCta: { en: "Explore features", ar: "استكشف الميزات" },
   },
   stats: [
-    { value: "99.2%", label: { en: "Calculation accuracy", ar: "دقة الحسابات" } },
+    { value: "< 3s", label: { en: "Response time", ar: "وقت الاستجابة" } },
+    { value: "24/7", label: { en: "Instant access", ar: "وصول فوري" } },
+    { value: "100%", label: { en: "Trusted updates", ar: "تحديثات موثوقة" } },
   ],
   features: [
     {
