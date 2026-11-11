@@ -69,8 +69,11 @@ export type IvFluidSummary = {
 export interface MedicalRepository {
   searchDrugs(query: string, locale: Locale): DrugRecord[];
   getDrugByName(query: string, locale: Locale): DrugRecord | null;
+  getDrugCount(): number;
   getInteractionReport(drugA: string, drugB: string, locale: Locale): InteractionRecord | null;
+  getInteractionCount(): number;
   getEmergencyDrugs(query: string, category: string, locale: Locale): EmergencyDrugRecord[];
+  getEmergencyDrugCount(): number;
   calculateBmiBmr(heightCm: number, weightKg: number, age: number, sex: "male" | "female"): BmiBmrResult;
   calculateIvFluidPlan(mode: "maintenance" | "resuscitation" | "replacement", weightKg: number, rate: number, duration: number, fluidType: string): IvFluidSummary;
 }
@@ -309,6 +312,272 @@ function createMockMedicalRepository(): MedicalRepository {
         ar: "جدول فحوصات INR ومراجعة جميع التغييرات الدوائية الأخيرة.",
       },
     },
+    {
+      id: "aspirin",
+      name: { en: "Aspirin", ar: "أسبرين" },
+      synonyms: ["Acetylsalicylic acid"],
+      category: { en: "Antiplatelet", ar: "مضاد التجلط" },
+      summary: {
+        en: "A platelet inhibitor used for cardiovascular protection and pain relief.",
+        ar: "مضاد لتجمع الصفائح الدموية يُستخدم للحماية القلبية والألم.",
+      },
+      uses: {
+        en: "Used for pain, fever, antiplatelet therapy, and selected cardiovascular prevention.",
+        ar: "يُستخدم للألم والحمى والعلاج المضاد للتجلط وبعض الوقاية القلبية.",
+      },
+      dosage: {
+        en: "Dose depends on the indication and patient factors; use the lowest effective amount.",
+        ar: "تعتمد الجرعة على الدلالة وعوامل المريض؛ استخدم أدنى جرعة فعالة.",
+      },
+      sideEffects: {
+        en: "Gastric irritation, bleeding, tinnitus, and rash are notable concerns.",
+        ar: "تهيّج المعدة، النزف، طنين الأذن، والطفح من المخاوف المهمة.",
+      },
+      contraindications: {
+        en: "Avoid in active bleeding, ulcers, aspirin allergy, and selected pediatric viral illness scenarios.",
+        ar: "تجنب في النزف النشط أو القرحة أو الحساسية للأسبرين وبعض حالات العدوى الفيروسية عند الأطفال.",
+      },
+      pregnancy: {
+        en: "Use may be restricted in late pregnancy and should follow obstetric advice.",
+        ar: "قد يقتصر الاستخدام في نهاية الحمل ويجب اتباع نصيحة التوليد.",
+      },
+      interactions: {
+        en: "May increase bleeding when combined with anticoagulants or other NSAIDs.",
+        ar: "قد يزيد النزف عند دمجه مع مضادات التخثر أو مضادات الالتهاب الأخرى.",
+      },
+      caution: {
+        en: "Monitor for GI bleeding and avoid overuse.",
+        ar: "راقب النزيف المعوي وتجنب الإفراط في الاستخدام.",
+      },
+    },
+    {
+      id: "atenolol",
+      name: { en: "Atenolol", ar: "أتينولول" },
+      synonyms: ["beta-blocker"],
+      category: { en: "Cardiovascular", ar: "قلب وعائي" },
+      summary: {
+        en: "A beta-blocker used for blood pressure control and arrhythmia management.",
+        ar: "حاصِر بيتا يُستخدم للسيطرة على الضغط وملف اضطرابات النظم.",
+      },
+      uses: {
+        en: "Useful for hypertension, angina, and selected arrhythmia indications.",
+        ar: "مفيد في ارتفاع الضغط والذبحة وبعض مؤشرات اضطرابات النظم.",
+      },
+      dosage: {
+        en: "Dose varies by indication, renal function, and age.",
+        ar: "تختلف الجرعة حسب الدلالة ووظائف الكلى والعمر.",
+      },
+      sideEffects: {
+        en: "Fatigue, bradycardia, low blood pressure, and cold extremities may occur.",
+        ar: "النعاس، بطء القلب، انخفاض ضغط الدم، وبرودة الأطراف قد تحدث.",
+      },
+      contraindications: {
+        en: "Avoid in severe bradycardia, decompensated shock, or asthma exacerbation.",
+        ar: "تجنب في بطء القلب الشديد أو الصدمة المتدهورة أو تفاقم الربو.",
+      },
+      pregnancy: {
+        en: "Use only when benefits outweigh risks and under clinician guidance.",
+        ar: "يُستخدم فقط إذا كانت الفائدة تفوق الخطر وتحت توجيه طبي.",
+      },
+      interactions: {
+        en: "May blunt bronchodilator response and interact with calcium-channel blockers.",
+        ar: "قد يضعف الاستجابة للمنشطات القصبية ويتداخل مع حاصرات القنوات الكالسيومية.",
+      },
+      caution: {
+        en: "Monitor pulse and blood pressure during dose changes.",
+        ar: "راقب النبض وضغط الدم أثناء تغيير الجرعة.",
+      },
+    },
+    {
+      id: "amlodipine",
+      name: { en: "Amlodipine", ar: "أملوديبين" },
+      synonyms: ["Calcium channel blocker"],
+      category: { en: "Antihypertensive", ar: "مخفض ضغط" },
+      summary: {
+        en: "A calcium-channel blocker used for hypertension and angina.",
+        ar: "حاصر قنوات الكالسيوم يُستخدم لارتفاع الضغط والذبحة.",
+      },
+      uses: {
+        en: "Helpful for blood pressure control and coronary vasodilation.",
+        ar: "مفيد في السيطرة على ضغط الدم وتوسيع الشرايين التاجية.",
+      },
+      dosage: {
+        en: "Dose is commonly once daily and adjusted to the clinical response.",
+        ar: "الجرعة عادةً مرة يوميًا وتُعدّل حسب الاستجابة السريرية.",
+      },
+      sideEffects: {
+        en: "Peripheral edema, flushing, dizziness, and headache may appear.",
+        ar: "تورم الأطراف، احمرار الوجه، دوخة، صداع قد يظهر.",
+      },
+      contraindications: {
+        en: "Use cautiously in severe hypotension and some forms of heart failure.",
+        ar: "استخدم بحذر في انخفاض ضغط الدم الشديد وبعض أشكال فشل القلب.",
+      },
+      pregnancy: {
+        en: "Consider whether benefits outweigh risks under clinician guidance.",
+        ar: "ضع في الاعتبار الفائدة مقابل الخطر تحت توجيه طبي.",
+      },
+      interactions: {
+        en: "May enhance the blood-pressure-lowering effect with other antihypertensives.",
+        ar: "قد يرفع تأثير خفض الضغط عند الجمع مع خافضات ضغط أخرى.",
+      },
+      caution: {
+        en: "Monitor for edema and blood pressure changes.",
+        ar: "راقب التورم وتغيرات ضغط الدم.",
+      },
+    },
+    {
+      id: "azithromycin",
+      name: { en: "Azithromycin", ar: "أزيثروميسين" },
+      synonyms: ["Zithromax"],
+      category: { en: "Antibiotic", ar: "مضاد حيوي" },
+      summary: {
+        en: "A macrolide antibiotic used for respiratory and selected infections.",
+        ar: "مضاد حيوي من عائلة الماكروليد يُستخدم للالتهابات التنفسية وبعض العدوى المختارة.",
+      },
+      uses: {
+        en: "Used for community-acquired pneumonia, sinusitis, and some other infections.",
+        ar: "يُستخدم في الالتهاب الرئوي المكتسب من المجتمع والتهاب الجيوب وبعض العدوى الأخرى.",
+      },
+      dosage: {
+        en: "Short-course dosing is common, but guidance varies by indication.",
+        ar: "الجرعة قصيرة المدى شائعة، لكن الإرشاد يختلف حسب الدلالة.",
+      },
+      sideEffects: {
+        en: "Nausea, diarrhea, and rare QT prolongation are important considerations.",
+        ar: "الغثيان، الإسهال، وإطالة QT النادرة من الاعتبارات المهمة.",
+      },
+      contraindications: {
+        en: "Avoid if there is known macrolide allergy or significant QT risk.",
+        ar: "تجنب إذا كان هناك حساسية للماكروليدات أو خطر QT كبير.",
+      },
+      pregnancy: {
+        en: "Generally acceptable with medical supervision when needed.",
+        ar: "يُعتبر مقبولًا عمومًا تحت إشراف طبي عند الحاجة.",
+      },
+      interactions: {
+        en: "May increase QT risk with other QT-prolonging drugs.",
+        ar: "قد يزيد خطر QT مع أدوية أخرى تطيل QT.",
+      },
+      caution: {
+        en: "Review heart rhythm risk before combining with other QT-active drugs.",
+        ar: "راجع خطر إيقاع القلب قبل الدمج مع أدوية QT النشطة.",
+      },
+    },
+    {
+      id: "furosemide",
+      name: { en: "Furosemide", ar: "فوروزميد" },
+      synonyms: ["Lasix"],
+      category: { en: "Diuretic", ar: "مدر للبول" },
+      summary: {
+        en: "A loop diuretic used for fluid overload, edema, and selected blood pressure conditions.",
+        ar: "مدر حلقي يُستخدم لفرط السوائل والوذمة وبعض حالات ارتفاع الضغط.",
+      },
+      uses: {
+        en: "Helpful in heart failure, edema, and selected hypertensive settings.",
+        ar: "مفيد في فشل القلب والوذمة وبعض إعدادات ارتفاع الضغط.",
+      },
+      dosage: {
+        en: "Dosing depends on weight, kidney function, and volume status.",
+        ar: "تعتمد الجرعة على الوزن ووظائف الكلى وحالة السوائل.",
+      },
+      sideEffects: {
+        en: "Low potassium, dehydration, muscle cramps, and dizziness can occur.",
+        ar: "انخفاض البوتاسيوم، الجفاف، تقلصات العضلات، والدوخة ممكنة.",
+      },
+      contraindications: {
+        en: "Avoid in severe dehydration and anuria unless instructed by a specialist.",
+        ar: "تجنب في الجفاف الشديد وقلة البول إلا إذا أوصى به أخصائي.",
+      },
+      pregnancy: {
+        en: "Use only when clinically required and monitored.",
+        ar: "يُستخدم فقط عند الضرورة السريرية مع المراقبة.",
+      },
+      interactions: {
+        en: "May worsen potassium depletion when combined with digoxin or corticosteroids.",
+        ar: "قد يفاقم استنزاف البوتاسيوم عند الجمع مع الديجوكسين أو الكورتيكوستيرويدات.",
+      },
+      caution: {
+        en: "Monitor electrolytes and blood pressure closely.",
+        ar: "راقب الشوارد وضغط الدم عن كثب.",
+      },
+    },
+    {
+      id: "insulin-glargine",
+      name: { en: "Insulin Glargine", ar: "إنسولين جلارجين" },
+      synonyms: ["Lantus"],
+      category: { en: "Antidiabetic", ar: "مضاد للسكري" },
+      summary: {
+        en: "A long-acting insulin used for basal glycemic control.",
+        ar: "إنسولين طويل المفعول يُستخدم للتحكم القاعدي في السكر.",
+      },
+      uses: {
+        en: "Used for diabetes management to maintain stable background insulin levels.",
+        ar: "يُستخدم لإدارة السكري للحفاظ على مستويات إنسولين أساسية مستقرة.",
+      },
+      dosage: {
+        en: "Dose is individualized and depends on daily insulin requirements.",
+        ar: "تُحدد الجرعة فرديًا وفقًا لمتطلبات الأنسولين اليومية.",
+      },
+      sideEffects: {
+        en: "Hypoglycemia, weight gain, and injection-site reactions are common concerns.",
+        ar: "انخفاض السكر، زيادة الوزن، وردود فعل في موقع الحقن من المخاوف الشائعة.",
+      },
+      contraindications: {
+        en: "Avoid in hypoglycemia or when insulin use is not appropriate.",
+        ar: "تجنب في حالات انخفاض السكر أو عندما لا يكون استخدام الأنسولين مناسبًا.",
+      },
+      pregnancy: {
+        en: "Often used under specialist oversight during pregnancy.",
+        ar: "غالبًا ما يُستخدم تحت إشراف أخصائي أثناء الحمل.",
+      },
+      interactions: {
+        en: "Combined glucose-lowering agents can increase hypoglycemia risk.",
+        ar: "يمكن أن تزيد العلاجات المخفضة للسكر من خطر انخفاض السكر عند الجمع.",
+      },
+      caution: {
+        en: "Monitor glucose patterns closely and adjust doses carefully.",
+        ar: "راقب أنماط السكر بعناية واضبط الجرعات بحذر.",
+      },
+    },
+    {
+      id: "losartan",
+      name: { en: "Losartan", ar: "لوسارتان" },
+      synonyms: ["ARB"],
+      category: { en: "Antihypertensive", ar: "مخفض ضغط" },
+      summary: {
+        en: "An ARB used to lower blood pressure and protect kidney function.",
+        ar: "مضاد مستقبلات الأنجيوتنسين الثاني يُستخدم لخفض ضغط الدم وحماية الكلى.",
+      },
+      uses: {
+        en: "Used for hypertension, heart failure, and diabetic kidney protection.",
+        ar: "يُستخدم لارتفاع الضغط وفشل القلب وحماية الكلى في مرض السكري.",
+      },
+      dosage: {
+        en: "Dose varies based on blood pressure target and renal status.",
+        ar: "تتغير الجرعة بحسب هدف ضغط الدم وحالة الكلى.",
+      },
+      sideEffects: {
+        en: "Dizziness, fatigue, and mild hyperkalemia may occur.",
+        ar: "الدوخة، التعب، وارتفاع البوتاسيوم الخفيف قد يحدث.",
+      },
+      contraindications: {
+        en: "Avoid in pregnancy and significant bilateral renal artery stenosis.",
+        ar: "تجنب في الحمل ومع تضيق شرايين الكلى الثنائي الشديد.",
+      },
+      pregnancy: {
+        en: "Avoid in pregnancy due to fetal risk.",
+        ar: "تجنب في الحمل بسبب خطر الجنين.",
+      },
+      interactions: {
+        en: "Risk of hyperkalemia increases with potassium supplements or other RAAS blockers.",
+        ar: "يزيد خطر ارتفاع البوتاسيوم مع المكملات البوتاسية أو مثبطات محور الرينين-الأنجيوتنسين.",
+      },
+      caution: {
+        en: "Monitor potassium and blood pressure after starting treatment.",
+        ar: "راقب البوتاسيوم وضغط الدم بعد بدء العلاج.",
+      },
+    },
   ];
 
   const interactions: InteractionRecord[] = [
@@ -340,6 +609,230 @@ function createMockMedicalRepository(): MedicalRepository {
         ar: "راجع مراقبة تخطيط القلب واستشر الصيدلي حول خيارات تعديل الجرعة.",
       },
     },
+    {
+      id: "lisinopril-potassium",
+      drugA: { en: "Lisinopril", ar: "ليسينوبريل" },
+      drugB: { en: "Potassium supplement", ar: "مكمل البوتاسيوم" },
+      severity: { en: "Major", ar: "خطير" },
+      summary: {
+        en: "ACE inhibitors can raise potassium levels, and potassium supplements may worsen this effect.",
+        ar: "قد تزيد مثبطات إنزيم التحويل للأنجيوتنسين من مستوى البوتاسيوم، وقد تؤدي المكملات إلى تفاقم هذا التأثير.",
+      },
+      recommendation: {
+        en: "Check potassium and renal function before and after starting the combination.",
+        ar: "تحقق من مستوى البوتاسيوم ووظائف الكلى قبل وبعد بدء الخلط.",
+      },
+    },
+    {
+      id: "metformin-contrast",
+      drugA: { en: "Metformin", ar: "ميتفورمين" },
+      drugB: { en: "Iodinated contrast", ar: "مادة تباين محتوية على اليود" },
+      severity: { en: "Moderate", ar: "متوسط" },
+      summary: {
+        en: "Contrast studies can increase the risk of lactic acidosis when metformin is continued in renal impairment.",
+        ar: "قد تزيد الدراسات بالتباين من خطر الحماض اللبني عند استمرار الميتفورمين مع ضعف وظائف الكلى.",
+      },
+      recommendation: {
+        en: "Review renal function before and after imaging; follow institutional imaging guidance.",
+        ar: "راجع وظائف الكلى قبل وبعد التصوير واتبع إرشادات التصوير المؤسسية.",
+      },
+    },
+    {
+      id: "warfarin-ibuprofen",
+      drugA: { en: "Warfarin", ar: "وارفارين" },
+      drugB: { en: "Ibuprofen", ar: "إيبوبروفين" },
+      severity: { en: "Major", ar: "خطير" },
+      summary: {
+        en: "NSAIDs can increase bleeding risk and may potentiate the anticoagulant effect of warfarin.",
+        ar: "قد تزيد مضادات الالتهاب غير الستيرويدية من خطر النزف وتضاعف تأثير مضاد التخثر في الوارفارين.",
+      },
+      recommendation: {
+        en: "Use a safer alternative when possible and monitor INR closely.",
+        ar: "استخدم بديلًا أكثر أمانًا عند الإمكان وراقب INR عن كثب.",
+      },
+    },
+    {
+      id: "simvastatin-azithromycin",
+      drugA: { en: "Simvastatin", ar: "سيمفاستاتين" },
+      drugB: { en: "Azithromycin", ar: "أزيثروميسين" },
+      severity: { en: "Moderate", ar: "متوسط" },
+      summary: {
+        en: "Some antibiotic combinations can increase the risk of muscle toxicity when statins are used concurrently.",
+        ar: "قد تزيد بعض مزيجات المضادات الحيوية من خطر سمية العضلات عند استخدام الستاتين بشكل متزامن.",
+      },
+      recommendation: {
+        en: "Look for muscle pain or weakness and consider a lower-risk alternative if symptoms appear.",
+        ar: "ابحث عن آلام أو ضعف في العضلات وفكر في بديل أقل خطورة إذا ظهرت الأعراض.",
+      },
+    },
+    {
+      id: "ciprofloxacin-iron",
+      drugA: { en: "Ciprofloxacin", ar: "سيبروفلوكساسين" },
+      drugB: { en: "Iron supplement", ar: "مكمل الحديد" },
+      severity: { en: "Moderate", ar: "متوسط" },
+      summary: {
+        en: "Minerals such as iron can reduce absorption of fluoroquinolones and lower their effectiveness.",
+        ar: "يمكن للمعادن مثل الحديد أن تقلل امتصاص الفلوروكينولونات وتخفض فعاليتها.",
+      },
+      recommendation: {
+        en: "Separate doses by several hours when possible.",
+        ar: "افصل الجرعات عن بعضها عدة ساعات عند الإمكان.",
+      },
+    },
+    {
+      id: "digoxin-clarithromycin",
+      drugA: { en: "Digoxin", ar: "ديجوكسين" },
+      drugB: { en: "Clarithromycin", ar: "كلاريثروميسين" },
+      severity: { en: "Major", ar: "خطير" },
+      summary: {
+        en: "Clarithromycin may increase digoxin levels and raise toxicity risk.",
+        ar: "قد يزيد الكلاريثروميسين من مستويات الديجوكسين ويزيد خطر السمية.",
+      },
+      recommendation: {
+        en: "Monitor drug levels and clinical signs of toxicity if combined.",
+        ar: "راقب مستويات الدواء وعلامات السمية السريرية إذا تم الدمج.",
+      },
+    },
+    {
+      id: "levothyroxine-calcium",
+      drugA: { en: "Levothyroxine", ar: "ليفوثيروكسين" },
+      drugB: { en: "Calcium supplement", ar: "مكمل الكالسيوم" },
+      severity: { en: "Moderate", ar: "متوسط" },
+      summary: {
+        en: "Calcium can reduce the absorption of thyroid hormone replacement and lower its effectiveness.",
+        ar: "يمكن أن يقلل الكالسيوم من امتصاص بديل هرمون الغدة الدرقية ويخفض فعاليته.",
+      },
+      recommendation: {
+        en: "Separate dosing by at least 4 hours.",
+        ar: "افصل الجرعة بمقدار 4 ساعات على الأقل.",
+      },
+    },
+    {
+      id: "furosemide-digoxin",
+      drugA: { en: "Furosemide", ar: "فوروزميد" },
+      drugB: { en: "Digoxin", ar: "ديجوكسين" },
+      severity: { en: "Moderate", ar: "متوسط" },
+      summary: {
+        en: "Diuretic-induced potassium loss can increase digoxin toxicity.",
+        ar: "قد يزيد فقدان البوتاسيوم الناجم عن المدرات من سمية الديجوكسين.",
+      },
+      recommendation: {
+        en: "Check potassium and monitor for digoxin toxicity warning signs.",
+        ar: "تحقق من البوتاسيوم وراقب علامات سمية الديجوكسين.",
+      },
+    },
+    {
+      id: "losartan-potassium",
+      drugA: { en: "Losartan", ar: "لوسارتان" },
+      drugB: { en: "Potassium supplement", ar: "مكمل البوتاسيوم" },
+      severity: { en: "Major", ar: "خطير" },
+      summary: {
+        en: "Potassium-sparing effects can be amplified by potassium-containing products and supplements.",
+        ar: "يمكن تضخيم التأثيرات الحافظة للبوتاسيوم بواسطة المنتجات والمكملات المحتوية على البوتاسيوم.",
+      },
+      recommendation: {
+        en: "Monitor renal function and potassium levels when using both.",
+        ar: "راقب وظائف الكلى ومستوى البوتاسيوم عند استخدام الاثنين معًا.",
+      },
+    },
+    {
+      id: "amlodipine-atorvastatin",
+      drugA: { en: "Amlodipine", ar: "أملوديبين" },
+      drugB: { en: "Atorvastatin", ar: "أتورفاستاتين" },
+      severity: { en: "Moderate", ar: "متوسط" },
+      summary: {
+        en: "This combination is usually manageable but may require attention to blood pressure and liver function.",
+        ar: "عادةً ما يكون هذا الجمع قابلاً للإدارة لكنه قد يتطلب الانتباه إلى ضغط الدم ووظائف الكبد.",
+      },
+      recommendation: {
+        en: "Reassess blood pressure and watch for side effects from either medicine if symptoms appear.",
+        ar: "أعد تقييم ضغط الدم وراقب الآثار الجانبية لأي من الدواءين إذا ظهرت الأعراض.",
+      },
+    },
+    {
+      id: "atorvastatin-clarithromycin",
+      drugA: { en: "Atorvastatin", ar: "أتورفاستاتين" },
+      drugB: { en: "Clarithromycin", ar: "كلاريثروميسين" },
+      severity: { en: "Major", ar: "خطير" },
+      summary: {
+        en: "Clarithromycin can increase atorvastatin exposure and raise the risk of muscle toxicity.",
+        ar: "قد يزيد الكلاريثروميسين من تعرض الجسم للأتورفاستاتين ويزيد خطر سمية العضلات.",
+      },
+      recommendation: {
+        en: "Use a lower statin dose or an alternative antibiotic when possible and review muscle symptoms.",
+        ar: "استخدم جرعة أقل من الستاتين أو بديلًا للمضاد الحيوي عند الإمكان وراجع أعراض العضلات.",
+      },
+    },
+    {
+      id: "prednisone-amlodipine",
+      drugA: { en: "Prednisone", ar: "بريدنيزون" },
+      drugB: { en: "Amlodipine", ar: "أملوديبين" },
+      severity: { en: "Moderate", ar: "متوسط" },
+      summary: {
+        en: "Prednisone can worsen blood sugar and blood pressure control, which may increase the effect of calcium-channel blockers.",
+        ar: "قد يفاقم بريدنيزون التحكم في سكر الدم وضغط الدم، مما قد يزيد تأثير حاصرات القنوات الكالسيومية.",
+      },
+      recommendation: {
+        en: "Monitor glucose, blood pressure, and edema when using both together.",
+        ar: "راقب مستوى السكر وضغط الدم والتورم عند استخدامهما معًا.",
+      },
+    },
+    {
+      id: "metformin-spironolactone",
+      drugA: { en: "Metformin", ar: "ميتفورمين" },
+      drugB: { en: "Spironolactone", ar: "سبيرونولاكتون" },
+      severity: { en: "Moderate", ar: "متوسط" },
+      summary: {
+        en: "This combination may add to the risk of dehydration or electrolyte imbalance in susceptible patients.",
+        ar: "قد يزيد هذا الجمع من خطر الجفاف أو خلل الشوارد في المرضى المعرضين للخطر.",
+      },
+      recommendation: {
+        en: "Reassess renal function and hydration status before prolonged co-use.",
+        ar: "أعد تقييم وظائف الكلى وحالة الترطيب قبل الاستخدام المشترك المطول.",
+      },
+    },
+    {
+      id: "digoxin-diuretic",
+      drugA: { en: "Digoxin", ar: "ديجوكسين" },
+      drugB: { en: "Diuretic", ar: "مدر للبول" },
+      severity: { en: "Major", ar: "خطير" },
+      summary: {
+        en: "Loop or thiazide diuretics can lower potassium and increase digoxin toxicity risk.",
+        ar: "قد تقلل مدرات البول الحلقية أو الثيازيدية من البوتاسيوم وتزيد خطر سمية الديجوكسين.",
+      },
+      recommendation: {
+        en: "Check potassium and digoxin levels when these drugs are combined.",
+        ar: "تحقق من مستوى البوتاسيوم ومستوى الديجوكسين عند دمج هذه الأدوية.",
+      },
+    },
+    {
+      id: "ketoconazole-warfarin",
+      drugA: { en: "Ketoconazole", ar: "كيتوكونازول" },
+      drugB: { en: "Warfarin", ar: "وارفارين" },
+      severity: { en: "Major", ar: "خطير" },
+      summary: {
+        en: "Ketoconazole can inhibit warfarin metabolism and dramatically increase bleeding risk.",
+        ar: "قد يمنع كيتوكونازول أيض الوارفارين ويزيد بشكل كبير من خطر النزف.",
+      },
+      recommendation: {
+        en: "Avoid this combination unless a clinician is closely monitoring INR and bleeding.",
+        ar: "تجنب هذا الجمع إلا إذا كان الطبيب يراقب INR ونزيف الدم عن كثب.",
+      },
+    },
+    {
+      id: "allopurinol-azathioprine",
+      drugA: { en: "Allopurinol", ar: "ألوبورينول" },
+      drugB: { en: "Azathioprine", ar: "أزايثيوبيرين" },
+      severity: { en: "Major", ar: "خطير" },
+      summary: {
+        en: "Allopurinol can increase azathioprine exposure and cause severe bone marrow toxicity.",
+        ar: "قد يزيد الألوبورينول من تعرض الجسم للأزايثيوبيرين ويؤدي إلى سميّة خطيرة في نخاع العظم.",
+      },
+      recommendation: {
+        en: "This combination requires specialist oversight and dose reduction planning.",
+        ar: "يتطلب هذا الجمع إشرافًا أخصائيًا وتخطيطًا لتقليل الجرعة.",
+      },
+    }
   ];
 
   const emergencyDrugs: EmergencyDrugRecord[] = [
@@ -717,6 +1210,9 @@ function createMockMedicalRepository(): MedicalRepository {
       const matches = this.searchDrugs(query, locale);
       return matches[0] ?? null;
     },
+    getDrugCount() {
+      return drugs.length;
+    },
     getInteractionReport(drugA, drugB, locale) {
       const qA = normalize(drugA);
       const qB = normalize(drugB);
@@ -730,6 +1226,9 @@ function createMockMedicalRepository(): MedicalRepository {
         }) ?? interactions[0] ?? null
       );
     },
+    getInteractionCount() {
+      return interactions.length;
+    },
     getEmergencyDrugs(query, category, locale) {
       const q = normalize(query);
       const c = normalize(category);
@@ -738,6 +1237,9 @@ function createMockMedicalRepository(): MedicalRepository {
         const matchesCategory = !c || c === "all" || normalize(drug.category[locale]).includes(c) || normalize(drug.category.en).includes(c);
         return matchesQuery && matchesCategory;
       });
+    },
+    getEmergencyDrugCount() {
+      return emergencyDrugs.length;
     },
     calculateBmiBmr(heightCm, weightKg, age, sex) {
       const bmi = weightKg / ((heightCm / 100) * (heightCm / 100));
